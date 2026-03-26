@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>更新記録</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .content {
+        width: auto;
+        margin-bottom: 10px;
+    }
+    .content2 {
+        width: auto;
+    }
+    h1, h2 {
+        text-align: center;
+        color: #555;
+        margin: 0;
+    }
+    h1 {
+        font-size: 1.2em;
+        margin-bottom: 5px;
+    }
+    h2 {
+        font-size: 0.9em;
+        margin-bottom: 15px;
+    }
+    .section {
+        margin-bottom: 12px;
+        border-radius: 4px;
+        padding: 8px;
+        font-size: 0.9em;
+    }
+    .max { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .pfc { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .fc { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .exh { background-color: #fff4e6; }
+    .hc { background-color: #ffebeb; }
+    .nc { background-color: #e6f7ff; }
+    .ec { background-color: #ebffeb; }
+    .a-ec { background-color: #ffedfe; }
+    .failed { background-color: #eeeeee; }
+    .bp { background-color: #eeeeee; }
+    .score { background-color: #eeeeee; }
+    .s_max_minus { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .s_aaa { background: linear-gradient(135deg, #FFF9E6, #FFF2C6); }
+    .s_aa { background: linear-gradient(135deg, #F5F5F5, #E8E8E8); }
+    .s_a { background-color: #FFEAE0; }
+    .section h3 {
+        background-color: #ffffff;
+        padding: 5px;
+        margin: 0;
+        font-size: 1em;
+        text-align: center;
+        color: #333;
+        border-radius: 4px;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 5px 0;
+    }
+    li {
+        background-color: #fff;
+        margin: 5px 0;
+        padding: 4px 6px;
+        border-radius: 4px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+    }
+    .levels {
+        font-weight: bold;
+        color: #333;
+        width: 160px;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 160px;
+    }
+    .change {
+        color: #333;
+        width: 160px;
+        text-align: left;
+        white-space: nowrap;
+    }
+    .delta {
+        color: #333;
+        width: 60px;
+        text-align: left;
+        white-space: nowrap;
+    }
+    .title {
+        color: #333;
+        flex-grow: 1;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 400px;
+    }
+
+    //ui control
+    .control-panel { text-align: center; margin-bottom: 20px; }
+    .control-btn { padding: 8px 16px; margin: 0 10px; font-size: 14px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; }
+    .control-btn:hover { background-color: #f0f0f0; }
+    .row-checkbox { display: none; margin-right: 10px; cursor: pointer; flex-shrink: 0; }
+    .hidden-row { display: none !important; }
+    .hidden-section { display: none !important; }
+    .edit-mode .row-checkbox { display: inline-block; }
+    .edit-mode .marked-for-deletion { opacity: 0.4; background-color: #ffe6e6; }
+    .edit-mode li { cursor: pointer; transition: background-color 0.2s; }
+    .edit-mode li:hover { background-color: #f0f8ff; }
+</style>
+</head>
+<body>
+<div class="container"><h1 style="font-size: 2em; margin-top: 10px;">2026/03/26の記録</h1>
+    <h2 style="font-size: 1.5em; margin-bottom: 5px;">叩いたノーツ数: 162,067 / 1時間51分</h2>
+    <h2 style="font-size: 1.1em; font-weight: normal; color: #666; margin-top: 0; margin-bottom: 15px;">累計ノーツ: 99,862,548 / 累計プレイ時間: 1369時間47分</h2>
+<div class = "content">
+<div class="section exh">
+<h3 style="background-color: #ffd9b3; ">新規 EXH</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl12, Ude12, 双1</span><span class="title">　ハルトマンの妖怪少女～VirusⅤ [INFERNO] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl10, ▼15</span><span class="title">　ハードルネッサンバ [ANOTHER BOSS]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Outernoid [かつたこザー]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Lonely Hina [DRIZZLE]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Carriage Pony? [ガチ押しホース_f]</span></li>
+</ul>
+</div>
+<div class="section hc">
+<h3 style="background-color: #ffcccc; ">新規 HC</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">双2,  連打複合2, ppp3</span><span class="title">　LOVE'S REBIRTH "Truth Mix" [WHALE'S  REBIRTH] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　永夜ノ蝶 [PHANTOM]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　WHIRLWIND [TEMPEST] </span></li>
+</ul>
+</div>
+<div class="section nc">
+<h3 style="background-color: #ccefff; ">新規 NC</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">★★4</span><span class="title">　年中夢中な好奇心[24時間年中無休] </span></li>
+</ul>
+</div>
+<div class="section ec">
+<h3 style="background-color: #ccffcc; ">新規 EC</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st5</span><span class="title">　XIX [SP INSANE]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">dl6, 集6</span><span class="title">　双星 -Milkyway mix- [Alpha] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"> 連打複合7, 集7</span><span class="title">　Throoughout -Full Throttle-</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集7</span><span class="title">　失望Choco [FTT]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集6, ppp7</span><span class="title">　Divisibility[VV] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Gamma Strike [Exhaust]</span></li>
+</ul>
+</div>
+</div>
+<div class="content2">
+<div class="section bp">
+<h3 style="background-color: #dddddd;">BP更新</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl12,  乱打12</span><span class="change"><span style=width:40px;display:inline-block;>　94</span>→<span style="color:#8888ff;font-weight:bold;"> 34</span></span><span class="delta">(<b>-60</b>)</span><span class="title">　7SP:雪の少女-MorningDash!Mix-[EXTREME] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl12, Ude12, 双1</span><span class="change"><span style=width:40px;display:inline-block;>　60</span>→<span style="color:#8888ff;font-weight:bold;"> 11</span></span><span class="delta">(<b>-49</b>)</span><span class="title">　ハルトマンの妖怪少女～VirusⅤ [INFERNO] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl10, ▼15</span><span class="change"><span style=width:40px;display:inline-block;>　36</span>→<span style="color:#8888ff;font-weight:bold;"> 18</span></span><span class="delta">(<b>-18</b>)</span><span class="title">　ハードルネッサンバ [ANOTHER BOSS]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st6,  連打複合6, 集6</span><span class="change"><span style=width:40px;display:inline-block;>　205</span>→<span style="color:#8888ff;font-weight:bold;"> 174</span></span><span class="delta">(<b>-31</b>)</span><span class="title">　Defeat awaken battle ship [STREAM]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st5</span><span class="change"><span style=width:40px;display:inline-block;>　169</span>→<span style="color:#8888ff;font-weight:bold;"> 119</span></span><span class="delta">(<b>-50</b>)</span><span class="title">　G e n g a o z o - f o n </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st0,  乱打12</span><span class="change"><span style=width:40px;display:inline-block;>　49</span>→<span style="color:#8888ff;font-weight:bold;"> 30</span></span><span class="delta">(<b>-19</b>)</span><span class="title">　INAPPROPRIATE EMOTION [yumether]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">dy1</span><span class="change"><span style=width:40px;display:inline-block;>　136</span>→<span style="color:#8888ff;font-weight:bold;"> 114</span></span><span class="delta">(<b>-22</b>)</span><span class="title">　Bloody Malie [Kill] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">dy0, 双4, 腕5,  連打複合5</span><span class="change"><span style=width:40px;display:inline-block;>　280</span>→<span style="color:#8888ff;font-weight:bold;"> 236</span></span><span class="delta">(<b>-44</b>)</span><span class="title">　Rosario -another story- -Genocide-</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">dy(sub)3, ppp8</span><span class="change"><span style=width:40px;display:inline-block;>　186</span>→<span style="color:#8888ff;font-weight:bold;"> 174</span></span><span class="delta">(<b>-12</b>)</span><span class="title">　Opera House [HEARTLESS]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">★7</span><span class="change"><span style=width:40px;display:inline-block;>　11</span>→<span style="color:#8888ff;font-weight:bold;"> 2</span></span><span class="delta">(<b>-9</b>)</span><span class="title">　Love's Rebirth '06 -7another- </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">★★4</span><span class="change"><span style=width:40px;display:inline-block;>　157</span>→<span style="color:#8888ff;font-weight:bold;"> 101</span></span><span class="delta">(<b>-56</b>)</span><span class="title">　年中夢中な好奇心[24時間年中無休] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"> 重発狂8, 集8, ppp8</span><span class="change"><span style=width:40px;display:inline-block;>　318</span>→<span style="color:#8888ff;font-weight:bold;"> 299</span></span><span class="delta">(<b>-19</b>)</span><span class="title">　Stargaze Station [HEARTLESS]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">双2,  連打複合2, ppp3</span><span class="change"><span style=width:40px;display:inline-block;>　136</span>→<span style="color:#8888ff;font-weight:bold;"> 67</span></span><span class="delta">(<b>-69</b>)</span><span class="title">　LOVE'S REBIRTH "Truth Mix" [WHALE'S  REBIRTH] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">dl6, 集6</span><span class="change"><span style=width:40px;display:inline-block;>　211</span>→<span style="color:#8888ff;font-weight:bold;"> 210</span></span><span class="delta">(<b>-1</b>)</span><span class="title">　双星 -Milkyway mix- [Alpha] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"> 連打複合7, 集7</span><span class="change"><span style=width:40px;display:inline-block;>　229</span>→<span style="color:#8888ff;font-weight:bold;"> 159</span></span><span class="delta">(<b>-70</b>)</span><span class="title">　Throoughout -Full Throttle-</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"> 連打複合5, 集5</span><span class="change"><span style=width:40px;display:inline-block;>　96</span>→<span style="color:#8888ff;font-weight:bold;"> 75</span></span><span class="delta">(<b>-21</b>)</span><span class="title">　ティアオイエツォン [TRAIN]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集8, ppp8</span><span class="change"><span style=width:40px;display:inline-block;>　382</span>→<span style="color:#8888ff;font-weight:bold;"> 293</span></span><span class="delta">(<b>-89</b>)</span><span class="title">　セクシー・セクシー・ダイナマイト [HEARTFUL2]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集7, ppp-2</span><span class="change"><span style=width:40px;display:inline-block;>　353</span>→<span style="color:#8888ff;font-weight:bold;"> 295</span></span><span class="delta">(<b>-58</b>)</span><span class="title">　Welcome! Mr.Sampling Slayer [Hand Slayer]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集5</span><span class="change"><span style=width:40px;display:inline-block;>　167</span>→<span style="color:#8888ff;font-weight:bold;"> 140</span></span><span class="delta">(<b>-27</b>)</span><span class="title">　MooNatioN [BirthDie]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集2, ppp3</span><span class="change"><span style=width:40px;display:inline-block;>　70</span>→<span style="color:#8888ff;font-weight:bold;"> 56</span></span><span class="delta">(<b>-14</b>)</span><span class="title">　GINKA [Intense] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="change"><span style=width:40px;display:inline-block;>　238</span>→<span style="color:#8888ff;font-weight:bold;"> 64</span></span><span class="delta">(<b>-174</b>)</span><span class="title">　永夜ノ蝶 [PHANTOM]</span></li>
+</ul>
+</div>
+<div class="section score">
+<h3 style="background-color: #dddddd;">スコア更新</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl12,  乱打12</span><span class="change">　A</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+440</span></span><span class="delta">(<b>+709</b>)</span><span class="title">　7SP:雪の少女-MorningDash!Mix-[EXTREME] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl12, Ude12, 双1</span><span class="change">　AA+188</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> MAX-193</span></span><span class="delta">(<b>+579</b>)</span><span class="title">　ハルトマンの妖怪少女～VirusⅤ [INFERNO] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl10, ▼15</span><span class="change">　AA+385</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AAA+122</span></span><span class="delta">(<b>+344</b>)</span><span class="title">　ハードルネッサンバ [ANOTHER BOSS]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl5, ppp-6</span><span class="change">　AAA+221</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AAA+232</span></span><span class="delta">(<b>+11</b>)</span><span class="title">　STAGER [Polar-Lunar]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl1, ★1</span><span class="change">　AAA+148</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AAA+152</span></span><span class="delta">(<b>+4</b>)</span><span class="title">　ERIS MX </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st6, dy1, ★★5,  重発狂6, ppp6</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> B</span></span><span class="delta">(<b>+132</b>)</span><span class="title">　NS22 [7key Another+] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st6,  連打複合6, 集6</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+17</b>)</span><span class="title">　Defeat awaken battle ship [STREAM]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st5</span><span class="change">　A</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+1</span></span><span class="delta">(<b>+341</b>)</span><span class="title">　G e n g a o z o - f o n </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st4, dy(sub)0, ✡23,  連打複合5, ppp4</span><span class="change">　A</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+40</span></span><span class="delta">(<b>+47</b>)</span><span class="title">　色待宵 -イロマツヨイ- [FULLBLOOM] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st0,  乱打12</span><span class="change">　AA+274</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+361</span></span><span class="delta">(<b>+87</b>)</span><span class="title">　INAPPROPRIATE EMOTION [yumether]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">dy1</span><span class="change">　B</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+33</b>)</span><span class="title">　Bloody Malie [Kill] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">dy0, 双4, 腕5,  連打複合5</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+611</b>)</span><span class="title">　Rosario -another story- -Genocide-</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">dy(sub)3, ppp8</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+74</b>)</span><span class="title">　Opera House [HEARTLESS]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">★7</span><span class="change">　AA+286</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+406</span></span><span class="delta">(<b>+120</b>)</span><span class="title">　Love's Rebirth '06 -7another- </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">★1,  乱打1</span><span class="change">　AAA+3</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AAA+28</span></span><span class="delta">(<b>+25</b>)</span><span class="title">　Bird Sprite -D.K.R. mix- (虎のanother) </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">★★4</span><span class="change">　A</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+18</span></span><span class="delta">(<b>+332</b>)</span><span class="title">　年中夢中な好奇心[24時間年中無休] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">双2,  連打複合2, ppp3</span><span class="change">　A</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+309</span></span><span class="delta">(<b>+786</b>)</span><span class="title">　LOVE'S REBIRTH "Truth Mix" [WHALE'S  REBIRTH] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"> 連打複合7, 集7</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+351</b>)</span><span class="title">　Throoughout -Full Throttle-</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"> 連打複合5, 集5</span><span class="change">　A</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+147</span></span><span class="delta">(<b>+190</b>)</span><span class="title">　ティアオイエツォン [TRAIN]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集8, ppp8</span><span class="change">　B</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+371</b>)</span><span class="title">　セクシー・セクシー・ダイナマイト [HEARTFUL2]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集7, ppp-2</span><span class="change">　B</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+301</b>)</span><span class="title">　Welcome! Mr.Sampling Slayer [Hand Slayer]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集6, ppp6</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+12</b>)</span><span class="title">　F.I.R.E (BMS Edit) [シブ] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集5</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+127</b>)</span><span class="title">　MooNatioN [BirthDie]</span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集2, ppp3</span><span class="change">　AA+170</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+322</span></span><span class="delta">(<b>+152</b>)</span><span class="title">　GINKA [Intense] </span></li>
+<li onclick="toggleRowSelection(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="change">　B</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+179</span></span><span class="delta">(<b>+915</b>)</span><span class="title">　永夜ノ蝶 [PHANTOM]</span></li>
+</ul>
+</div>
+</div>
+
+    <div class="control-panel" id="controlPanel" data-html2canvas-ignore="true">
+        <button class="control-btn" onclick="toggleMode()">レイアウト編集</button>
+        <button class="control-btn" onclick="takeScreenshot()">画像として保存</button>
+    </div>
+</div>
+
+<script>
+let isEditMode = false;
+
+function toggleMode() {
+    isEditMode = !isEditMode;
+    document.body.classList.toggle('edit-mode', isEditMode);
+
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+        const items = section.querySelectorAll('li');
+        let visibleCount = 0;
+
+        items.forEach(item => {
+            const cb = item.querySelector('.row-checkbox');
+            if (isEditMode) {
+                item.classList.remove('hidden-row');
+                section.classList.remove('hidden-section');
+            } else {
+                if (cb && cb.checked) {
+                    item.classList.add('hidden-row');
+                } else {
+                    item.classList.remove('hidden-row');
+                    visibleCount++;
+                }
+            }
+        });
+
+        if (!isEditMode) {
+            if (visibleCount === 0) {
+                section.classList.add('hidden-section');
+            } else {
+                section.classList.remove('hidden-section');
+            }
+        }
+    });
+}
+
+function updateRowStyle(checkbox) {
+    if (checkbox.checked) {
+        checkbox.parentElement.classList.add('marked-for-deletion');
+    } else {
+        checkbox.parentElement.classList.remove('marked-for-deletion');
+    }
+}
+
+function toggleRowSelection(liElement, event) {
+    if (!isEditMode) return;
+    
+    if (event.target.type === 'checkbox') return;
+
+    const cb = liElement.querySelector('.row-checkbox');
+    if (cb) {
+        cb.checked = !cb.checked;
+        updateRowStyle(cb);
+    }
+}
+
+function takeScreenshot() {
+    if (isEditMode) toggleMode();
+
+    setTimeout(() => {
+        html2canvas(document.body, {
+            backgroundColor: "#f9f9f9",
+            scale: 2
+        }).then(canvas => {
+            let link = document.createElement('a');
+            const dateStr = new Date().toISOString().replace(/[:\-T]/g, '').split('.')[0];
+            link.download = `score_update_${dateStr}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    }, 150);
+}
+</script>
+</body>
+</html>
