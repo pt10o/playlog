@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>更新記録</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+    body { font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333; margin: 0; padding: 0; display: flex; justify-content: center; }
+    .container { display: flex; flex-direction: column; align-items: center; padding: 10px 20px 40px 20px; width: 100%; box-sizing: border-box; }
+    
+    .content { width: auto; margin-bottom: 10px; }
+    .content2 { width: auto; }
+    h1, h2 { text-align: center; color: #555; margin: 0; }
+    h1 { font-size: 1.2em; margin-top: 0; margin-bottom: 5px; }
+    h2 { font-size: 0.9em; margin-bottom: 15px; }
+    .section { margin-bottom: 12px; border-radius: 4px; padding: 8px; font-size: 0.9em; }
+    .max { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .pfc { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .fc { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .exh { background-color: #fff4e6; }
+    .hc { background-color: #ffebeb; }
+    .nc { background-color: #e6f7ff; }
+    .ec { background-color: #ebffeb; }
+    .a-ec { background-color: #ffedfe; }
+    .failed { background-color: #eeeeee; }
+    .bp { background-color: #eeeeee; }
+    .score { background-color: #eeeeee; }
+    .s_max_minus { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .s_aaa { background: linear-gradient(135deg, #FFF9E6, #FFF2C6); }
+    .s_aa { background: linear-gradient(135deg, #F5F5F5, #E8E8E8); }
+    .s_a { background-color: #FFEAE0; }
+    .section h3 { background-color: #ffffff; padding: 5px; margin: 0; font-size: 1em; text-align: center; color: #333; border-radius: 4px; }
+    ul { list-style-type: none; padding: 0; margin: 5px 0; }
+    li { background-color: #fff; margin: 5px 0; padding: 4px 6px; border-radius: 4px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); display: flex; align-items: center; }
+    
+    li.highlighted { background-color: #ffff00 !important; font-weight: bold; }
+    
+    .levels { font-weight: bold; color: #333; width: 160px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+    .change { color: #333; width: 160px; text-align: left; white-space: nowrap; }
+    .delta { color: #333; width: 60px; text-align: left; white-space: nowrap; }
+    .title { color: #333; flex-grow: 1; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px; }
+    .right-info { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-shrink: 0; padding-left: 10px; font-size: 0.9em; }
+    .lamp-change { display: flex; align-items: center; justify-content: center; gap: 4px; color: #666; width: 45px; flex-shrink: 0; }
+    .lamp-box { width: 14px; height: 14px; border-radius: 2px; box-sizing: border-box; display: inline-block; }
+    .lamp-bp { color: #444; background-color: #f0f0f0; padding: 2px 6px; border-radius: 4px; border: 1px solid #ddd; width: 80px; text-align: center; box-sizing: border-box; flex-shrink: 0; }
+    .lamp-score { color: #444; background-color: #e6f7ff; padding: 2px 6px; border-radius: 4px; border: 1px solid #b3e5fc; width: 120px; text-align: center; box-sizing: border-box; flex-shrink: 0; }
+    .control-panel { text-align: center; margin-bottom: 20px; }
+    .control-btn { padding: 8px 16px; margin: 0 10px; font-size: 14px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; }
+    .control-btn:hover { background-color: #f0f0f0; }
+    .row-checkbox { display: none; margin-right: 10px; cursor: pointer; flex-shrink: 0; }
+    .hidden-row { display: none !important; }
+    .hidden-section { display: none !important; }
+    .hidden-count { text-align: center; font-weight: bold; padding-top: 4px; display: none; }
+    .edit-mode .row-checkbox { display: inline-block; }
+    .edit-mode .marked-for-deletion { opacity: 0.4; background-color: #ffe6e6; }
+    .edit-mode li { cursor: pointer; transition: background-color 0.2s; }
+    .edit-mode li:hover { background-color: #f0f8ff; }
+    .screenshot-mode { padding: 5px !important; width: max-content !important; min-width: 100% !important; background-color: #f9f9f9; }
+    .screenshot-mode .spacer { display: none !important; }
+    .screenshot-mode .control-panel { display: none !important; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1 style="font-size: 2em; margin-top: 0;">2026/05/11の記録</h1>
+    <h2 style="font-size: 1.5em; margin-bottom: 5px;">叩いたノーツ数: 129,584 / 1時間42分</h2>
+    <h2 style="font-size: 1.1em; font-weight: normal; color: #666; margin-top: 0; margin-bottom: 15px;">累計ノーツ: 103,841,962 / 累計プレイ時間: 1418時間6分</h2>
+<div class = "content">
+<div class="section pfc">
+<h3 style="background-color: #ffffff88; ">新規 PFC</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　すいーつ・くえすと！ [SP ANOTHER+]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background: linear-gradient(135deg, #ffb6c1, #ffdfba, #baffc9);"></span></span><span class="lamp-bp">BP:0</span><span class="lamp-score">MAX-75 / 97.9%</span></span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+<div class="section exh">
+<h3 style="background-color: #ffd9b3; ">新規 EXH</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">so4</span><span class="title">　ME AND BΦΦΦYS [雨の降る日に]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:11</span><span class="lamp-score">AA+361 / 88.9%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Ascarise [乱打の星]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:16</span><span class="lamp-score">AA+201 / 82.8%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　モノクロマ [SP ANOTHER]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:5</span><span class="lamp-score">MAX-175 / 94.8%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　すいーつ・くえすと！ [SP INSANE]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:1</span><span class="lamp-score">MAX-250 / 95.2%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　【脳内完熟警報】トマト絶対主義☆アイドル崩壊論 x トマトパニック☆赤色征服計画 ～自我も常識もプロ根性CRUSH!! [7KEYS ANOTHER]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:5</span><span class="lamp-score">AAA+153 / 92.9%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Void Creation Method [SP EXTRA]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:24</span><span class="lamp-score">AA+738 / 88.7%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　クレイヴド [ANOTHER]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:6</span><span class="lamp-score">MAX-130 / 96.0%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　The Queen&apos;s Execution [SP INSANE]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:6</span><span class="lamp-score">AAA+170 / 92.4%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　燕</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:5</span><span class="lamp-score">AAA+55 / 91.0%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　ArcanicA [ARCANIC]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:10</span><span class="lamp-score">AA+315 / 85.0%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Hope Philosophy [INSANE]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:25</span><span class="lamp-score">AAA+6 / 89.0%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Crystal of Artifacts[7INSANE]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:19</span><span class="lamp-score">AAA+58 / 90.1%</span></span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+<div class="section hc">
+<h3 style="background-color: #ffcccc; ">新規 HC</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　すいーつ・くえすと！ [Lovely]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:44</span><span class="lamp-score">AA+519 / 84.7%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Prismatic Sunset [SP APPEND: Long Lived, Brighter Sunset]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:54</span><span class="lamp-score">AA+147 / 81.3%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　ミライトコネクト [キラキラ]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:37</span><span class="lamp-score">AA+718 / 88.6%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　PENOMBRE feat.Ai Hisano -Tout ce que tu voudras-</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:44</span><span class="lamp-score">AA+218 / 82.1%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　夜の車窓、其処には何が見える？ [STARSTORM-α]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:69</span><span class="lamp-score">AA+443 / 85.2%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　world devoid of you -Red Wisp Come On-</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:33</span><span class="lamp-score">AA+332 / 83.3%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　珈琲ト万年筆。 [Capra]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:69</span><span class="lamp-score">AA+344 / 82.9%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　ArcanicA [Wandering the Flyway]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:79</span><span class="lamp-score">A / 77.1%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　New Horizons [Another]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:22</span><span class="lamp-score">AA+376 / 86.8%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Crimson Garuda [BLACK ANOTHER]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:41</span><span class="lamp-score">AA+646 / 88.1%</span></span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+<div class="section nc">
+<h3 style="background-color: #ccefff; ">新規 NC</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Bent shout -Another-</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #99ccff;"></span></span><span class="lamp-bp">BP:120</span><span class="lamp-score">A / 69.6%</span></span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+<div class="section ec">
+<h3 style="background-color: #ccffcc; ">新規 EC</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Gamegame (bms edit -Harether-)</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #99ff99;"></span></span><span class="lamp-bp">BP:135</span><span class="lamp-score">AA+52 / 78.5%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Magia della Distruzione [FIN.]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #99ff99;"></span></span><span class="lamp-bp">BP:147</span><span class="lamp-score">A / 75.3%</span></span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+</div>
+<div class="content2">
+<div class="section score">
+<h3 style="background-color: #dddddd;">スコア更新</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl5,  乱打5, ppp-6</span><span class="change">　AAA+233</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AAA+236</span></span><span class="delta">(<b>+3</b>)</span><span class="title">　レシュノルティア[INSANE]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl1</span><span class="change">　AAA+134</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AAA+140</span></span><span class="delta">(<b>+6</b>)</span><span class="title">　アイム・マイヒーロー [ENT]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集2, ppp2</span><span class="change">　AA+515</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+571</span></span><span class="delta">(<b>+56</b>)</span><span class="title">　SAKURA-SKYROAD [Everlasting]</span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+</div>
+
+    <div class="control-panel" id="controlPanel" data-html2canvas-ignore="true">
+        <button class="control-btn" onclick="toggleMode()">レイアウト編集</button>
+        <button class="control-btn" onclick="takeScreenshot()">画像として保存</button>
+    </div>
+<div style="height: 40px; width: 100%;"></div>
+</div>
+
+<script>
+let isEditMode = false;
+function toggleMode() {
+    isEditMode = !isEditMode;
+    document.body.classList.toggle('edit-mode', isEditMode);
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+        const items = section.querySelectorAll('li');
+        let visibleCount = 0;
+        let hiddenCount = 0;
+        items.forEach(item => {
+            const cb = item.querySelector('.row-checkbox');
+            if (isEditMode) {
+                item.classList.remove('hidden-row');
+                section.classList.remove('hidden-section');
+            } else {
+                if (cb && cb.checked) {
+                    item.classList.add('hidden-row');
+                    hiddenCount++;
+                } else {
+                    item.classList.remove('hidden-row');
+                    visibleCount++;
+                }
+            }
+        });
+        
+        const hiddenLabel = section.querySelector('.hidden-count');
+        
+        if (!isEditMode) {
+            section.classList.remove('hidden-section');
+            
+            if (hiddenLabel) {
+                if (hiddenCount > 0) {
+                    hiddenLabel.textContent = '+' + hiddenCount + '件';
+                    hiddenLabel.style.display = 'block';
+                } else {
+                    hiddenLabel.style.display = 'none';
+                }
+            }
+        } else {
+            if (hiddenLabel) {
+                hiddenLabel.style.display = 'none';
+            }
+        }
+    });
+}
+function updateRowStyle(checkbox) {
+    if (checkbox.checked) { checkbox.parentElement.classList.add('marked-for-deletion'); } 
+    else { checkbox.parentElement.classList.remove('marked-for-deletion'); }
+}
+function toggleRowSelection(liElement, event) {
+    if (!isEditMode) return;
+    if (event.target.type === 'checkbox') return;
+    const cb = liElement.querySelector('.row-checkbox');
+    if (cb) { cb.checked = !cb.checked; updateRowStyle(cb); }
+}
+
+function toggleHighlight(liElement, event) {
+    event.preventDefault();
+    liElement.classList.toggle('highlighted');
+}
+
+function takeScreenshot() {
+    if (isEditMode) toggleMode();
+    
+    const target = document.querySelector('.container');
+    if (!target) return;
+
+    target.classList.add('screenshot-mode');
+    
+    setTimeout(() => {
+        html2canvas(target, { 
+            backgroundColor: "#f9f9f9", 
+            scale: 2,
+            
+            scrollY: -window.scrollY,
+            windowWidth: target.scrollWidth,
+            useCORS: true 
+        }).then(canvas => {
+            let link = document.createElement('a');
+            const dateStr = new Date().toISOString().replace(/[:\-T]/g, '').split('.')[0];
+            link.download = `bms_tracker_${dateStr}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            
+            target.classList.remove('screenshot-mode');
+        }).catch(err => {
+            console.error("Screenshot failed:", err);
+            alert("スクリーンショットの生成に失敗しました。");
+            target.classList.remove('screenshot-mode');
+        });
+    }, 150);
+}
+</script>
+</body>
+</html>
