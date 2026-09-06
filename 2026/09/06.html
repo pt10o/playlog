@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>更新記録</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+    body { font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333; margin: 0; padding: 0; display: flex; justify-content: center; }
+    .container { display: flex; flex-direction: column; align-items: center; padding: 10px 20px 40px 20px; width: 100%; box-sizing: border-box; }
+    
+    .content { width: auto; margin-bottom: 10px; }
+    .content2 { width: auto; }
+    .content_score_rank { width: auto; }
+    h1, h2 { text-align: center; color: #555; margin: 0; }
+    h1 { font-size: 1.2em; margin-top: 0; margin-bottom: 5px; }
+    h2 { font-size: 0.9em; margin-bottom: 15px; }
+    .section { margin-bottom: 12px; border-radius: 4px; padding: 8px; font-size: 0.9em; }
+    .max { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .pfc { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .fc { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .exh { background-color: #fff4e6; }
+    .hc { background-color: #ffebeb; }
+    .nc { background-color: #e6f7ff; }
+    .ec { background-color: #ebffeb; }
+    .a-ec { background-color: #ffedfe; }
+    .failed { background-color: #eeeeee; }
+    .bp { background-color: #eeeeee; }
+    .score { background-color: #eeeeee; }
+    .s_max_minus { background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,223,186,0.2), rgba(186,255,201,0.2)); }
+    .s_aaa { background: linear-gradient(135deg, #FFF9E6, #FFF2C6); }
+    .s_aa { background: linear-gradient(135deg, #F5F5F5, #E8E8E8); }
+    .s_a { background-color: #FFEAE0; }
+    .section h3 { background-color: #ffffff; padding: 5px; margin: 0; font-size: 1em; text-align: center; color: #333; border-radius: 4px; }
+    ul { list-style-type: none; padding: 0; margin: 5px 0; }
+    li { background-color: #fff; margin: 5px 0; padding: 4px 6px; border-radius: 4px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); display: flex; align-items: center; }
+    
+    li.highlighted { background-color: #ffff00 !important; font-weight: bold; }
+    
+    .levels { font-weight: bold; color: #333; width: 160px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; flex-shrink: 0; }
+    .change { color: #333; width: 160px; text-align: left; white-space: nowrap; flex-shrink: 0; }
+    .delta { color: #333; width: 60px; text-align: left; white-space: nowrap; flex-shrink: 0; }
+    .title { 
+        color: #333; 
+        text-align: left; 
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        max-width: 400px; 
+        min-width: 0; 
+    }
+    
+    .right-info { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-shrink: 0; padding-left: 10px; font-size: 0.9em; }
+    .lamp-change { display: flex; align-items: center; justify-content: center; gap: 4px; color: #666; width: 45px; flex-shrink: 0; }
+    .lamp-box { width: 14px; height: 14px; border-radius: 2px; box-sizing: border-box; display: inline-block; }
+    .lamp-bp { color: #444; background-color: #f0f0f0; padding: 2px 6px; border-radius: 4px; border: 1px solid #ddd; width: 80px; text-align: center; box-sizing: border-box; flex-shrink: 0; }
+    .lamp-score { color: #444; background-color: #e6f7ff; padding: 2px 6px; border-radius: 4px; border: 1px solid #b3e5fc; width: 120px; text-align: center; box-sizing: border-box; flex-shrink: 0; }
+    
+    .control-panel { text-align: center; margin-bottom: 20px; }
+    .control-btn { padding: 8px 16px; margin: 0 10px; font-size: 14px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; }
+    .control-btn:hover { background-color: #f0f0f0; }
+    .row-checkbox { display: none; margin-right: 10px; cursor: pointer; flex-shrink: 0; }
+    .hidden-row { display: none !important; }
+    .hidden-section { display: none !important; }
+    .hidden-count { text-align: center; font-weight: bold; padding-top: 4px; display: none; }
+    .edit-mode .row-checkbox { display: inline-block; }
+    .edit-mode .marked-for-deletion { opacity: 0.4; background-color: #ffe6e6; }
+    .edit-mode li { cursor: pointer; transition: background-color 0.2s; }
+    .edit-mode li:hover { background-color: #f0f8ff; }
+    .screenshot-mode { padding: 5px !important; width: max-content !important; min-width: 100% !important; background-color: #f9f9f9; }
+    .screenshot-mode .spacer { display: none !important; }
+    .screenshot-mode .control-panel { display: none !important; }
+
+    .timeline-wrapper { 
+        width: max-content;
+        min-width: 600px;
+        max-width: 100%; 
+        display: none; 
+        margin-top: 10px; 
+    }
+    .timeline { 
+        position: relative; 
+        padding: 10px 0; 
+        width: 100%;
+    }
+    .timeline::before { content: ''; position: absolute; top: 0; bottom: 0; left: 108px; width: 4px; background: #dcdcdc; border-radius: 2px; }
+    .timeline-item { 
+        display: flex; 
+        align-items: center; 
+        position: relative; 
+        margin: 5px 0; 
+        width: 100%; 
+        font-size: 0.9em; 
+        transition: background-color 0.2s; 
+        border-radius: 4px; 
+        padding: 2px 0; 
+    }
+    .timeline-item .row-checkbox { position: absolute; left: -25px; margin: 0; }
+    .edit-mode .timeline-item { cursor: pointer; }
+    .edit-mode .timeline-item:hover { background-color: #f0f8ff; }
+    .time-label { width: 85px; text-align: right; padding-right: 28px; font-size: 0.85em; color: #777; font-weight: bold; flex-shrink: 0; line-height: 1.3; }
+    .timeline-dot { position: absolute; left: 100px; width: 14px; height: 14px; border-radius: 50%; border: 3px solid #f9f9f9; box-shadow: 0 0 0 2px #dcdcdc, 0 2px 4px rgba(0,0,0,0.2); z-index: 1; }
+    .rainbow-dot { background: linear-gradient(135deg, #ffb6c1, #ffdfba, #baffc9) !important; }
+   .timeline-content { 
+        flex-grow: 1;
+        background-color: #fff; 
+        border-radius: 4px; 
+        padding: 4px 6px; 
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); 
+        display: flex; 
+        align-items: center; 
+        margin-left: 10px; 
+        margin-right: 8px; 
+        position: relative; 
+        min-width: 0; 
+        box-sizing: border-box; 
+        height: 31px; 
+    }
+    .timeline-content::before { content: ''; position: absolute; left: -8px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-right: 6px solid #fff; }
+    .song-info-row { 
+        display: flex; 
+        align-items: center; 
+        width: 100%;
+        min-width: 0; 
+    }
+    .stat-group { display: flex; align-items: center; gap: 15px; flex-shrink: 0; margin-left: 8px; }
+    .stat-text { color: #444; font-size: 0.9em; white-space: nowrap; }
+    .bp-text { width: 95px; flex-shrink: 0; text-align: left; }
+    .sc-text { width: 200px; flex-shrink: 0; text-align: left; }
+    .diff-minus { color: #8888ff; font-weight: bold; font-size: 0.9em; margin-left: 4px; }
+    .diff-plus { color: #ffbb66; font-weight: bold; font-size: 0.9em; margin-left: 4px; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1 style="font-size: 2em; margin-top: 0;">2026/09/06の記録</h1>
+    <h2 style="font-size: 1.5em; margin-bottom: 5px;">叩いたノーツ数: 129,758 / 1時間37分</h2>
+    <h2 style="font-size: 1.1em; font-weight: normal; color: #666; margin-top: 0; margin-bottom: 15px;">累計ノーツ: 116,680,336 / 累計プレイ時間: 1572時間22分</h2>
+<div id="diffView" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+<div class = "content">
+<div class="section fc">
+<h3 style="background-color: #ffffff88; ">新規 FC</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Entropic Orbital [ANOTHER]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background: linear-gradient(135deg, #ffb6c1, #ffdfba, #baffc9);"></span></span><span class="lamp-bp">BP:0</span><span class="lamp-score">MAX-96 / 95.9%</span></span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+<div class="section exh">
+<h3 style="background-color: #ffd9b3; ">新規 EXH</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st2, 双2, 腕2, ppp2</span><span class="title">　東風谷早苗が悲しい顔をする理由。 [Hexagon]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #ff9999;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:35</span><span class="lamp-score">AAA+195 / 91.4%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">▼12,  乱打11</span><span class="title">　Rosario -another story- (very busy)</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:6</span><span class="lamp-score">AAA+259 / 92.5%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">ppp-11</span><span class="title">　Lyzoande for sacrifice [XD]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #ff9999;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:13</span><span class="lamp-score">AAA+26 / 89.5%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　vexodes [SJ]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:8</span><span class="lamp-score">AAA+108 / 91.8%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　ホーリーサンバランド [SECOND BOSS]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span><span class="lamp-bp">BP:13</span><span class="lamp-score">AAA+126 / 91.0%</span></span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+<div class="section hc">
+<h3 style="background-color: #ffcccc; ">新規 HC</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">★★1,  sub重発狂2</span><span class="title">　another justice [7KEY EX]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:49</span><span class="lamp-score">AA+608 / 86.0%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">▼6</span><span class="title">　JUMMER (LASER PSY REMIX)[ANOTHER]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:24</span><span class="lamp-score">AA+316 / 87.2%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　jus†ice [Ain&apos;t too proud to rely on!]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:61</span><span class="lamp-score">AA+156 / 80.3%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　四十五年ノ雪桜[trrrrr]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:38</span><span class="lamp-score">AAA+10 / 89.1%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　freewheeling [Fashionable]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:21</span><span class="lamp-score">AA+479 / 87.0%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　リジットXXパラダイス （モノスゴスギル）</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span><span class="lamp-bp">BP:53</span><span class="lamp-score">AA+124 / 80.4%</span></span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+<div class="section nc">
+<h3 style="background-color: #ccefff; ">新規 NC</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st4,  連打複合4</span><span class="title">　Howling the Nightmare (bms edit) [Pentagon]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #99ff99;"></span>→<span class="lamp-box" style="background-color: #99ccff;"></span></span><span class="lamp-bp">BP:78</span><span class="lamp-score">AA+168 / 80.1%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels"></span><span class="title">　Revelator [EXTREME]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #99ccff;"></span></span><span class="lamp-bp">BP:74</span><span class="lamp-score">A / 77.7%</span></span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+<div class="section ec">
+<h3 style="background-color: #ccffcc; ">新規 EC</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st8,  連打複合8</span><span class="title">　タイヨウパラダイス(Lemon beads J-core bootleg) -BMS Edit-</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #99ff99;"></span></span><span class="lamp-bp">BP:170</span><span class="lamp-score">A / 69.7%</span></span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">dy2, 双5, 腕7</span><span class="title">　moor [S乱のなり損ない]</span><span class="right-info"><span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #99ff99;"></span></span><span class="lamp-bp">BP:90</span><span class="lamp-score">AA+357 / 82.7%</span></span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+</div>
+<div class="content_score_rank">
+</div>
+<div class="content2">
+<div class="section bp">
+<h3 style="background-color: #dddddd;">BP更新</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl1</span><span class="change"><span style=width:40px;display:inline-block;>　2</span>→<span style="color:#8888ff;font-weight:bold;"> 1</span></span><span class="delta">(<b>-1</b>)</span><span class="title">　R-B-H-N! [Insane]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st7, dl7</span><span class="change"><span style=width:40px;display:inline-block;>　317</span>→<span style="color:#8888ff;font-weight:bold;"> 201</span></span><span class="delta">(<b>-116</b>)</span><span class="title">　La Tierra de Majestad [Rampage]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st6, dy1, dl6</span><span class="change"><span style=width:40px;display:inline-block;>　155</span>→<span style="color:#8888ff;font-weight:bold;"> 119</span></span><span class="delta">(<b>-36</b>)</span><span class="title">　SYNTHETICS [Hexagon]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st6,  重発狂6, 集6, ppp7</span><span class="change"><span style=width:40px;display:inline-block;>　169</span>→<span style="color:#8888ff;font-weight:bold;"> 137</span></span><span class="delta">(<b>-32</b>)</span><span class="title">　GREMLIN [HURTLESS]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st6</span><span class="change"><span style=width:40px;display:inline-block;>　186</span>→<span style="color:#8888ff;font-weight:bold;"> 101</span></span><span class="delta">(<b>-85</b>)</span><span class="title">　MachinaRegina [DAMNED]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st5, dy0, ✡24,  重発狂6</span><span class="change"><span style=width:40px;display:inline-block;>　167</span>→<span style="color:#8888ff;font-weight:bold;"> 135</span></span><span class="delta">(<b>-32</b>)</span><span class="title">　Stokesia [Master]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st5,  重発狂4, 集4</span><span class="change"><span style=width:40px;display:inline-block;>　147</span>→<span style="color:#8888ff;font-weight:bold;"> 137</span></span><span class="delta">(<b>-10</b>)</span><span class="title">　Bad Beat! [InFiction]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st5, dl5</span><span class="change"><span style=width:40px;display:inline-block;>　152</span>→<span style="color:#8888ff;font-weight:bold;"> 151</span></span><span class="delta">(<b>-1</b>)</span><span class="title">　プナイプナイげんそう～５人の並行世界から来たてるやまたちが世界を救う！？　プナイプナイinワンダーランド～[INFERNO]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st4,  連打複合4</span><span class="change"><span style=width:40px;display:inline-block;>　198</span>→<span style="color:#8888ff;font-weight:bold;"> 78</span></span><span class="delta">(<b>-120</b>)</span><span class="title">　Howling the Nightmare (bms edit) [Pentagon]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st3,  重発狂3</span><span class="change"><span style=width:40px;display:inline-block;>　74</span>→<span style="color:#8888ff;font-weight:bold;"> 67</span></span><span class="delta">(<b>-7</b>)</span><span class="title">　タイヨウパラダイス(Lemon beads J-core bootleg) -BMS Edit- -もういっかい!-</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st2, 双2, 腕2, ppp2</span><span class="change"><span style=width:40px;display:inline-block;>　62</span>→<span style="color:#8888ff;font-weight:bold;"> 35</span></span><span class="delta">(<b>-27</b>)</span><span class="title">　東風谷早苗が悲しい顔をする理由。 [Hexagon]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">集2, ppp2</span><span class="change"><span style=width:40px;display:inline-block;>　99</span>→<span style="color:#8888ff;font-weight:bold;"> 93</span></span><span class="delta">(<b>-6</b>)</span><span class="title">　スーパーマーケット モルフ　テーマソング [HEARTFUL]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">ppp-11</span><span class="change"><span style=width:40px;display:inline-block;>　29</span>→<span style="color:#8888ff;font-weight:bold;"> 13</span></span><span class="delta">(<b>-16</b>)</span><span class="title">　Lyzoande for sacrifice [XD]</span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+<div class="section score">
+<h3 style="background-color: #dddddd;">スコア更新</h3>
+<ul>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">sl1</span><span class="change">　AAA+69</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> MAX-144</span></span><span class="delta">(<b>+93</b>)</span><span class="title">　R-B-H-N! [Insane]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st7, dl7</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> B</span></span><span class="delta">(<b>+338</b>)</span><span class="title">　La Tierra de Majestad [Rampage]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st6, dy1, dl6</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+168</b>)</span><span class="title">　SYNTHETICS [Hexagon]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st6,  重発狂6, 集6, ppp7</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+110</b>)</span><span class="title">　GREMLIN [HURTLESS]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st6</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+245</b>)</span><span class="title">　MachinaRegina [DAMNED]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st5, dy0,  重発狂5</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+60</b>)</span><span class="title">　GENOCIDER</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st5,  重発狂4, 集4</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+210</b>)</span><span class="title">　Bad Beat! [InFiction]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st4,  連打複合4</span><span class="change">　A</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+168</span></span><span class="delta">(<b>+623</b>)</span><span class="title">　Howling the Nightmare (bms edit) [Pentagon]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">st3,  重発狂3</span><span class="change">　AA+346</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AA+505</span></span><span class="delta">(<b>+159</b>)</span><span class="title">　タイヨウパラダイス(Lemon beads J-core bootleg) -BMS Edit- -もういっかい!-</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">★6</span><span class="change">　AA+353</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AAA+82</span></span><span class="delta">(<b>+91</b>)</span><span class="title">　Engine [SP Insane]</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">★★3</span><span class="change">　</span>　<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> A</span></span><span class="delta">(<b>+51</b>)</span><span class="title">　ピアノ協奏曲第１番&quot;蠍火&quot;（なんでも吸い込むピンク色のための）</span></li>
+<li onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)"><input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)"><span class="levels">ppp-11</span><span class="change">　AA+359</span>→<span style=width:70px;display:inline-block;><span style=color:#ffbb66;font-weight:bold;"> AAA+26</span></span><span class="delta">(<b>+128</b>)</span><span class="title">　Lyzoande for sacrifice [XD]</span></li>
+</ul>
+<div class="hidden-count"></div>
+</div>
+</div>
+</div>
+<div id="timelineView" class="timeline-wrapper">
+    <div class="timeline">
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">2026/09/06<br>15:10</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">sl1</span>
+                    <span class="title"> R-B-H-N! [Insane]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:1<span class="diff-minus">(-1)</span></span>
+                            <span class="stat-text sc-text">MAX-144 / 94.8%<span class="diff-plus">(+93)</span></span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:13</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">★6</span>
+                    <span class="title"> Engine [SP Insane]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:9</span>
+                            <span class="stat-text sc-text">AAA+82 / 91.4%<span class="diff-plus">(+91)</span></span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:22</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> vexodes [SJ]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:8</span>
+                            <span class="stat-text sc-text">AAA+108 / 91.8%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:25</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">▼12,  乱打11</span>
+                    <span class="title"> Rosario -another story- (very busy)</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:6</span>
+                            <span class="stat-text sc-text">AAA+259 / 92.5%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:28</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> ホーリーサンバランド [SECOND BOSS]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:13</span>
+                            <span class="stat-text sc-text">AAA+126 / 91.0%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:31</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">ppp-11</span>
+                    <span class="title"> Lyzoande for sacrifice [XD]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #ff9999;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:13</span>
+                            <span class="stat-text sc-text">AAA+26 / 89.5%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:35</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> freewheeling [Fashionable]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:21</span>
+                            <span class="stat-text sc-text">AA+479 / 87.0%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:38</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> リジットXXパラダイス （モノスゴスギル）</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:53</span>
+                            <span class="stat-text sc-text">AA+124 / 80.4%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:42</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st2, 双2, 腕2, ppp2</span>
+                    <span class="title"> 東風谷早苗が悲しい顔をする理由。 [Hexagon]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #ff9999;"></span>→<span class="lamp-box" style="background-color: #ffcc66;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:35</span>
+                            <span class="stat-text sc-text">AAA+195 / 91.4%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:47</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st3,  重発狂3</span>
+                    <span class="title"> タイヨウパラダイス(Lemon beads J-core bootleg) -BMS Edit- -もういっかい!-</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:67<span class="diff-minus">(-7)</span></span>
+                            <span class="stat-text sc-text">AA+505 / 83.7%<span class="diff-plus">(+159)</span></span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:50</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> jus†ice [Ain&apos;t too proud to rely on!]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:61</span>
+                            <span class="stat-text sc-text">AA+156 / 80.3%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:02</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">★★1,  sub重発狂2</span>
+                    <span class="title"> another justice [7KEY EX]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:49</span>
+                            <span class="stat-text sc-text">AA+608 / 86.0%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:08</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">★★3</span>
+                    <span class="title"> ピアノ協奏曲第１番&quot;蠍火&quot;（なんでも吸い込むピンク色のための）</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:111</span>
+                            <span class="stat-text sc-text">A / 75.6%<span class="diff-plus">(+51)</span></span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:11</div>
+            <div class="timeline-dot" style="background: #99ccff;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st5, dy0,  重発狂5</span>
+                    <span class="title"> GENOCIDER</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:92</span>
+                            <span class="stat-text sc-text">A / 71.8%<span class="diff-plus">(+60)</span></span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:14</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st5, dy0, ✡24,  重発狂6</span>
+                    <span class="title"> Stokesia [Master]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:135<span class="diff-minus">(-32)</span></span>
+                            <span class="stat-text sc-text">A / 71.3%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:17</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st5,  重発狂4, 集4</span>
+                    <span class="title"> Bad Beat! [InFiction]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:137<span class="diff-minus">(-10)</span></span>
+                            <span class="stat-text sc-text">A / 74.2%<span class="diff-plus">(+210)</span></span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:21</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st5, dl5</span>
+                    <span class="title"> プナイプナイげんそう～５人の並行世界から来たてるやまたちが世界を救う！？　プナイプナイinワンダーランド～[INFERNO]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:151<span class="diff-minus">(-1)</span></span>
+                            <span class="stat-text sc-text">A / 69.8%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:25</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st6,  重発狂6, 集6, ppp7</span>
+                    <span class="title"> GREMLIN [HURTLESS]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:137<span class="diff-minus">(-32)</span></span>
+                            <span class="stat-text sc-text">A / 72.8%<span class="diff-plus">(+110)</span></span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:28</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st6, dy1, dl6</span>
+                    <span class="title"> SYNTHETICS [Hexagon]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:119<span class="diff-minus">(-36)</span></span>
+                            <span class="stat-text sc-text">A / 69.4%<span class="diff-plus">(+168)</span></span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:32</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> 四十五年ノ雪桜[trrrrr]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:38</span>
+                            <span class="stat-text sc-text">AAA+10 / 89.1%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:37</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st6</span>
+                    <span class="title"> MachinaRegina [DAMNED]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:101<span class="diff-minus">(-85)</span></span>
+                            <span class="stat-text sc-text">A / 76.4%<span class="diff-plus">(+245)</span></span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:51</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st7, dl7</span>
+                    <span class="title"> La Tierra de Majestad [Rampage]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:201<span class="diff-minus">(-116)</span></span>
+                            <span class="stat-text sc-text">B / 64.6%<span class="diff-plus">(+338)</span></span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:57</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st8,  連打複合8</span>
+                    <span class="title"> タイヨウパラダイス(Lemon beads J-core bootleg) -BMS Edit-</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #99ff99;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:170</span>
+                            <span class="stat-text sc-text">A / 69.7%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:08</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st8,  連打複合8</span>
+                    <span class="title"> ネコイチ(Lemon beads Remix) -BMS edit- [Castor]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:116<span class="diff-minus">(-30)</span></span>
+                            <span class="stat-text sc-text">A / 74.0%<span class="diff-plus">(+112)</span></span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:16</div>
+            <div class="timeline-dot" style="background: #99ccff;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> Revelator [EXTREME]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #99ccff;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:74</span>
+                            <span class="stat-text sc-text">A / 77.7%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:39</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">dy2, 双5, 腕7</span>
+                    <span class="title"> moor [S乱のなり損ない]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #99ff99;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:90</span>
+                            <span class="stat-text sc-text">AA+357 / 82.7%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:45</div>
+            <div class="timeline-dot" style="background: #99ccff;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st4,  連打複合4</span>
+                    <span class="title"> Howling the Nightmare (bms edit) [Pentagon]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #99ff99;"></span>→<span class="lamp-box" style="background-color: #99ccff;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:78</span>
+                            <span class="stat-text sc-text">AA+168 / 80.1%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:53</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">集2, ppp2</span>
+                    <span class="title"> スーパーマーケット モルフ　テーマソング [HEARTFUL]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:93<span class="diff-minus">(-6)</span></span>
+                            <span class="stat-text sc-text">AA+6 / 77.9%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:57</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">▼6</span>
+                    <span class="title"> JUMMER (LASER PSY REMIX)[ANOTHER]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background-color: #ff9999;"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:24</span>
+                            <span class="stat-text sc-text">AA+316 / 87.2%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">18:02</div>
+            <div class="timeline-dot rainbow-dot" style=""></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> Entropic Orbital [ANOTHER]</span>
+                    <span class="right-info">
+                        <span class="lamp-change"><span class="lamp-box" style="background-color: #fff; border: 1px solid #333;"></span>→<span class="lamp-box" style="background: linear-gradient(135deg, #ffb6c1, #ffdfba, #baffc9);"></span></span>
+                        <span class="stat-group">
+                            <span class="stat-text bp-text">BP:0</span>
+                            <span class="stat-text sc-text">MAX-96 / 95.9%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="historyTimelineView" class="timeline-wrapper" style="display: none;">
+    <div class="timeline">
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">2026/09/06<br>15:10</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">sl1</span>
+                    <span class="title"> R-B-H-N! [Insane]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:1</span>
+                            <span class="lamp-score">MAX-144 / 94.8%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:13</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">★6</span>
+                    <span class="title"> Engine [SP Insane]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:9</span>
+                            <span class="lamp-score">AAA+82 / 91.4%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:19</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> ポイズンアローショット！[7key Insane]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:25</span>
+                            <span class="lamp-score">AA+217 / 84.3%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:22</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> vexodes [SJ]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:8</span>
+                            <span class="lamp-score">AAA+108 / 91.8%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:25</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">▼12,  乱打11</span>
+                    <span class="title"> Rosario -another story- (very busy)</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:6</span>
+                            <span class="lamp-score">AAA+259 / 92.5%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:28</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> ホーリーサンバランド [SECOND BOSS]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:13</span>
+                            <span class="lamp-score">AAA+126 / 91.0%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:31</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">ppp-11</span>
+                    <span class="title"> Lyzoande for sacrifice [XD]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:13</span>
+                            <span class="lamp-score">AAA+26 / 89.5%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:35</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> freewheeling [Fashionable]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:21</span>
+                            <span class="lamp-score">AA+479 / 87.0%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:38</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> リジットXXパラダイス （モノスゴスギル）</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:53</span>
+                            <span class="lamp-score">AA+124 / 80.4%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:42</div>
+            <div class="timeline-dot" style="background: #ffcc66;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st2, 双2, 腕2, ppp2</span>
+                    <span class="title"> 東風谷早苗が悲しい顔をする理由。 [Hexagon]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:35</span>
+                            <span class="lamp-score">AA+784 / 87.7%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:47</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st3,  重発狂3</span>
+                    <span class="title"> タイヨウパラダイス(Lemon beads J-core bootleg) -BMS Edit- -もういっかい!-</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:67</span>
+                            <span class="lamp-score">AA+505 / 83.7%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:50</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> jus†ice [Ain&apos;t too proud to rely on!]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:61</span>
+                            <span class="lamp-score">AA+156 / 80.3%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:55</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st4,  重発狂4, ppp4</span>
+                    <span class="title"> 腹腹時計</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:95</span>
+                            <span class="lamp-score">A / 73.0%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">15:59</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st4,  重発狂4, 集4, ppp4</span>
+                    <span class="title"> 海神奇譚 [泡沫]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:78</span>
+                            <span class="lamp-score">A / 75.6%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:02</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">★★1,  sub重発狂2</span>
+                    <span class="title"> another justice [7KEY EX]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:49</span>
+                            <span class="lamp-score">AA+608 / 86.0%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:08</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">★★3</span>
+                    <span class="title"> ピアノ協奏曲第１番&quot;蠍火&quot;（なんでも吸い込むピンク色のための）</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:128</span>
+                            <span class="lamp-score">A / 75.6%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:11</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st5, dy0,  重発狂5</span>
+                    <span class="title"> GENOCIDER</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:104</span>
+                            <span class="lamp-score">A / 71.8%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:14</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st5, dy0, ✡24,  重発狂6</span>
+                    <span class="title"> Stokesia [Master]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:135</span>
+                            <span class="lamp-score">A / 70.2%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:17</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st5,  重発狂4, 集4</span>
+                    <span class="title"> Bad Beat! [InFiction]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:137</span>
+                            <span class="lamp-score">A / 74.2%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:21</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st5, dl5</span>
+                    <span class="title"> プナイプナイげんそう～５人の並行世界から来たてるやまたちが世界を救う！？　プナイプナイinワンダーランド～[INFERNO]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:151</span>
+                            <span class="lamp-score">A / 68.5%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:25</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st6,  重発狂6, 集6, ppp7</span>
+                    <span class="title"> GREMLIN [HURTLESS]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:137</span>
+                            <span class="lamp-score">A / 72.8%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:28</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st6, dy1, dl6</span>
+                    <span class="title"> SYNTHETICS [Hexagon]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:119</span>
+                            <span class="lamp-score">A / 69.4%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:32</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> 四十五年ノ雪桜[trrrrr]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:38</span>
+                            <span class="lamp-score">AAA+10 / 89.1%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:37</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st6</span>
+                    <span class="title"> MachinaRegina [DAMNED]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:101</span>
+                            <span class="lamp-score">A / 76.4%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:46</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st7,  連打複合7</span>
+                    <span class="title"> A D D i c T i O N 4 5 0 0 0 0 0 - F u L L  -</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:269</span>
+                            <span class="lamp-score">A / 70.0%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:51</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st7, dl7</span>
+                    <span class="title"> La Tierra de Majestad [Rampage]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:201</span>
+                            <span class="lamp-score">B / 64.6%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">16:57</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st8,  連打複合8</span>
+                    <span class="title"> タイヨウパラダイス(Lemon beads J-core bootleg) -BMS Edit-</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:170</span>
+                            <span class="lamp-score">A / 69.7%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:03</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st8,  連打複合8</span>
+                    <span class="title"> ネコイチ(Lemon beads Remix) -BMS edit- [Castor]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:146</span>
+                            <span class="lamp-score">A / 71.8%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:08</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st8,  連打複合8</span>
+                    <span class="title"> ネコイチ(Lemon beads Remix) -BMS edit- [Castor]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:116</span>
+                            <span class="lamp-score">A / 74.0%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:12</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st8</span>
+                    <span class="title"> ☆をかけるアドベンチャー ～ we are forever friends! ～ [旅の終り]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:318</span>
+                            <span class="lamp-score">A / 66.9%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:16</div>
+            <div class="timeline-dot" style="background: #99ccff;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> Revelator [EXTREME]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:74</span>
+                            <span class="lamp-score">A / 77.7%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:24</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st9, dl9</span>
+                    <span class="title"> アルスノヴァに喝采を [SUPERNOVA]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:328</span>
+                            <span class="lamp-score">B / 59.3%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:30</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st8,  連打複合8, 集8</span>
+                    <span class="title"> Χαρων [Realm 5: The Netherworld - Transcend]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:255</span>
+                            <span class="lamp-score">A / 68.9%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:34</div>
+            <div class="timeline-dot" style="background: #aaaaaa;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">dy2</span>
+                    <span class="title"> Dawn of Destination [Journey]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:208</span>
+                            <span class="lamp-score">B / 61.3%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:39</div>
+            <div class="timeline-dot" style="background: #99ff99;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">dy2, 双5, 腕7</span>
+                    <span class="title"> moor [S乱のなり損ない]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:90</span>
+                            <span class="lamp-score">AA+357 / 82.7%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:45</div>
+            <div class="timeline-dot" style="background: #99ccff;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">st4,  連打複合4</span>
+                    <span class="title"> Howling the Nightmare (bms edit) [Pentagon]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:78</span>
+                            <span class="lamp-score">AA+168 / 80.1%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:53</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">集2, ppp2</span>
+                    <span class="title"> スーパーマーケット モルフ　テーマソング [HEARTFUL]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:93</span>
+                            <span class="lamp-score">A / 77.4%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">17:57</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels">▼6</span>
+                    <span class="title"> JUMMER (LASER PSY REMIX)[ANOTHER]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:24</span>
+                            <span class="lamp-score">AA+316 / 87.2%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">18:00</div>
+            <div class="timeline-dot" style="background: #ff9999;"></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"> sub重発狂0, ppp-12</span>
+                    <span class="title"> BUNNY↑↑CHARGE [TURBO]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:48</span>
+                            <span class="lamp-score">AA+571 / 87.9%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-item" onclick="toggleRowSelection(this, event)" oncontextmenu="toggleHighlight(this, event)">
+            <input type="checkbox" class="row-checkbox" onchange="updateRowStyle(this)">
+            <div class="time-label">18:02</div>
+            <div class="timeline-dot rainbow-dot" style=""></div>
+            <div class="timeline-content">
+                <div class="song-info-row">
+                    <span class="levels"></span>
+                    <span class="title"> Entropic Orbital [ANOTHER]</span>
+                    <span class="right-info">
+                        <span class="stat-group">
+                            <span class="lamp-bp">BP:0</span>
+                            <span class="lamp-score">MAX-96 / 95.9%</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="control-panel" id="controlPanel" data-html2canvas-ignore="true">
+        <button class="control-btn" id="viewToggleBtn" onclick="toggleView()">差分タイムライン表示</button>
+        <button class="control-btn" onclick="toggleMode()">レイアウト編集</button>
+        <button class="control-btn" onclick="takeScreenshot()">画像として保存</button>
+    </div>
+<div style="height: 40px; width: 100%;"></div>
+</div>
+
+<script>
+let isEditMode = false;
+let currentViewIndex = 0;
+
+function toggleView() {
+    const diffView = document.getElementById('diffView');
+    const timelineView = document.getElementById('timelineView');
+    const historyTimelineView = document.getElementById('historyTimelineView');
+    const btn = document.getElementById('viewToggleBtn');
+
+    const viewList = [];
+    if (diffView) {
+        viewList.push({
+            el: diffView,
+            displayStyle: 'flex',
+            nextBtnText: timelineView ? '差分タイムライン表示' : (historyTimelineView ? '全件タイムライン表示' : '差分リスト表示に戻す')
+        });
+    }
+    if (timelineView) {
+        viewList.push({
+            el: timelineView,
+            displayStyle: 'block',
+            nextBtnText: historyTimelineView ? '全件タイムライン表示' : '差分リスト表示に戻す'
+        });
+    }
+    if (historyTimelineView) {
+        viewList.push({
+            el: historyTimelineView,
+            displayStyle: 'block',
+            nextBtnText: '差分リスト表示に戻す'
+        });
+    }
+
+    if (viewList.length <= 1) return;
+
+    currentViewIndex = (currentViewIndex + 1) % viewList.length;
+
+    viewList.forEach(v => {
+        if (v.el) v.el.style.display = 'none';
+    });
+
+    const activeView = viewList[currentViewIndex];
+    if (activeView && activeView.el) {
+        activeView.el.style.display = activeView.displayStyle;
+    }
+
+    if (btn && activeView) {
+        btn.innerText = activeView.nextBtnText;
+    }
+}
+
+function toggleMode() {
+    isEditMode = !isEditMode;
+    document.body.classList.toggle('edit-mode', isEditMode);
+    
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+        const items = section.querySelectorAll('li');
+        let visibleCount = 0;
+        let hiddenCount = 0;
+        items.forEach(item => {
+            const cb = item.querySelector('.row-checkbox');
+            if (isEditMode) {
+                item.classList.remove('hidden-row');
+                section.classList.remove('hidden-section');
+            } else {
+                if (cb && cb.checked) {
+                    item.classList.add('hidden-row');
+                    hiddenCount++;
+                } else {
+                    item.classList.remove('hidden-row');
+                    visibleCount++;
+                }
+            }
+        });
+        
+        const hiddenLabel = section.querySelector('.hidden-count');
+        if (!isEditMode) {
+            section.classList.remove('hidden-section');
+            if (hiddenLabel) {
+                if (hiddenCount > 0) {
+                    hiddenLabel.textContent = '+' + hiddenCount + '件';
+                    hiddenLabel.style.display = 'block';
+                } else {
+                    hiddenLabel.style.display = 'none';
+                }
+            }
+        } else {
+            if (hiddenLabel) hiddenLabel.style.display = 'none';
+        }
+    });
+
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach(item => {
+        const cb = item.querySelector('.row-checkbox');
+        if (isEditMode) {
+            item.classList.remove('hidden-row');
+        } else {
+            if (cb && cb.checked) {
+                item.classList.add('hidden-row');
+            } else {
+                item.classList.remove('hidden-row');
+            }
+        }
+    });
+}
+function updateRowStyle(checkbox) {
+    if (checkbox.checked) { checkbox.parentElement.classList.add('marked-for-deletion'); } 
+    else { checkbox.parentElement.classList.remove('marked-for-deletion'); }
+}
+function toggleRowSelection(liElement, event) {
+    if (!isEditMode) return;
+    if (event.target.type === 'checkbox') return;
+    const cb = liElement.querySelector('.row-checkbox');
+    if (cb) { cb.checked = !cb.checked; updateRowStyle(cb); }
+}
+
+function toggleHighlight(liElement, event) {
+    event.preventDefault();
+    liElement.classList.toggle('highlighted');
+}
+
+function takeScreenshot() {
+    if (isEditMode) toggleMode();
+    
+    const target = document.querySelector('.container');
+    if (!target) return;
+
+    target.classList.add('screenshot-mode');
+    
+    setTimeout(() => {
+        html2canvas(target, { 
+            backgroundColor: "#f9f9f9", 
+            scale: 2,
+            scrollY: -window.scrollY,
+            windowWidth: target.scrollWidth,
+            useCORS: true 
+        }).then(canvas => {
+            let link = document.createElement('a');
+            link.download = `.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            target.classList.remove('screenshot-mode');
+        }).catch(err => {
+            console.error("Screenshot failed:", err);
+            alert("Failed to take screenshot.");
+            target.classList.remove('screenshot-mode');
+        });
+    }, 150);
+}
+</script>
+</body>
+</html>
